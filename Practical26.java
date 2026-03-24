@@ -1,0 +1,59 @@
+import java.util.Scanner;
+
+class Payment
+{
+    void processPayment(int amount)
+    {
+        System.out.println("Processing payment...");
+    }
+}
+
+class CreditCardPayment extends Payment
+{
+    void processPayment(int amount)
+    {
+        System.out.println("Payment of Rs." + amount + " done using Credit Card");
+    }
+}
+
+class UPIPayment extends Payment
+{
+    void processPayment(int amount)
+    {
+        System.out.println("Payment of Rs." + amount + " done using UPI");
+    }
+}
+
+class MainClass
+{
+    public static void main(String[] args)
+    {
+        System.out.println("Name: Dhruvi Patel");
+        System.out.println("Enrollment No: 240390107027");
+        System.out.println();
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Choose Payment Method:");
+        System.out.println("1. Credit Card");
+        System.out.println("2. UPI");
+
+        int choice = sc.nextInt();
+
+        System.out.print("Enter Amount: ");
+        int amount = sc.nextInt();
+
+        Payment p;
+
+        if (choice == 1)
+        {
+            p = new CreditCardPayment();
+        }
+        else
+        {
+            p = new UPIPayment();
+        }
+
+        p.processPayment(amount);
+    }
+}
