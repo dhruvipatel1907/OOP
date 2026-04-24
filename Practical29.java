@@ -1,85 +1,70 @@
+/**Design a Java program for an Online Order Processing System using partial interface
+implementation. Create an interface Order with three methods:
+placeOrder(String item, int qty)
+cancelOrder(int orderId)
+generateBill()
+Create an abstract class PartialOrder that implements the Order interface but provides implementation only for placeOrder() (storing order details). Create a concrete class FinalOrder that extends PartialOrder and implements the remaining methods cancelOrder() and generateBill(). Accept user input for order details and allow user to either generate a bill or cancel the order.
+*/
+
 import java.util.Scanner;
-
-interface Order
-{
-    void placeOrder(String item, int qty);
-    void cancelOrder(int orderId);
-    void generateBill();
+interface Order {
+	void placeOrder(String item, int qty);
+	void cancelOrder(int orderId);
+	void generateBill();
 }
 
-abstract class PartialOrder implements Order
-{
-    String itemName;
-    int quantity;
-    int orderId = 101;
-
-    public void placeOrder(String item, int qty)
-    {
-        itemName = item;
-        quantity = qty;
-        System.out.println("Order placed successfully");
-    }
+abstract class PartialOrder implements Order {
+	String itemName;
+	int quantity;
+ 
+	@Override
+	public void placeOrder(String item, int qty) {
+		itemName = item;
+		quantity = qty;
+		System.out.println("Order placed successfully!");
+	}
 }
 
-class FinalOrder extends PartialOrder
-{
-    public void cancelOrder(int orderId)
-    {
-        if (this.orderId == orderId)
-            System.out.println("Order cancelled");
-        else
-            System.out.println("Invalid Order ID");
-    }
-
-    public void generateBill()
-    {
-        int price = 100; // fixed price per item
-        int total = price * quantity;
-
-        System.out.println("Item: " + itemName);
-        System.out.println("Quantity: " + quantity);
-        System.out.println("Total Bill: " + total);
-    }
+class FinalOrder extends PartialOrder {
+	int orderId = 101;
+	double pricePerItem = 100;
+ 
+	@Override
+	public void cancelOrder(int orderId) {
+		System.out.println("Order with ID " + orderId + " has been cancelled.");
+	}
+ 
+	@Override
+	public void generateBill() {
+		double total = quantity * pricePerItem;
+ 		System.out.println("----- BILL -----");
+ 		System.out.println("Item: " + itemName);
+ 		System.out.println("Quantity: " + quantity);
+ 		System.out.println("Price per item: " + pricePerItem);
+ 		System.out.println("Total Amount: " + total);
+ 	}
 }
 
-class MainClass
-{
-    public static void main(String[] args)
-    {
-        System.out.println("Name: Dhruvi Patel");
-        System.out.println("Enrollment No: 240390107027");
-        System.out.println();
-
-        Scanner sc = new Scanner(System.in);
-
-        FinalOrder fo = new FinalOrder();
-
-        System.out.print("Enter item name: ");
-        String item = sc.nextLine();
-
-        System.out.print("Enter quantity: ");
-        int qty = sc.nextInt();
-
-        fo.placeOrder(item, qty);
-
-        System.out.println("\n1. Generate Bill");
-        System.out.println("2. Cancel Order");
-        System.out.print("Enter choice: ");
-        int ch = sc.nextInt();
-
-        if (ch == 1)
-        {
-            fo.generateBill();
-        }
-        else if (ch == 2)
-        {
-            System.out.print("Enter Order ID: ");
-            int id = sc.nextInt();
-            fo.cancelOrder(id);
-        }
-        else
-        {
-            System.out.println("Invalid choice");
-        }
-    }
+class OrderApp {
+	public static void main(String[] args) {
+ 		System.out.println("Dhruvi Patel");
+		System.out.println("240390107027");
+ 		Scanner sc = new Scanner(System.in);
+ 		FinalOrder order = new FinalOrder();
+ 		System.out.print("Enter item name: ");
+ 		String item = sc.nextLine();
+ 		System.out.print("Enter quantity: ");
+ 		int qty = sc.nextInt();
+ 		order.placeOrder(item, qty);
+ 		System.out.println("Enter 1 to Generate Bill or 2 to Cancel Order:");
+ 		int choice = sc.nextInt();
+ 		if (choice == 1) {
+ 			order.generateBill();
+ 		}else if (choice == 2) {
+ 			order.cancelOrder(order.orderId);
+ 		}else{
+ 			System.out.println("Invalid choice!");
+ 		}
+		sc.close();
+ 	}
 }
